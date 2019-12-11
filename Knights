@@ -1,0 +1,173 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Drawing;
+
+namespace wChess.ChessPieces
+{
+    /// <summary>
+    /// 马
+    /// </summary>
+    public class Knights : ChessPiece
+    {
+        public Knights(Point metaPos, TEAM team = TEAM.RED, SIDE side = SIDE.UP)
+            : base("马", metaPos, team,side)
+        {
+            if (Team == TEAM.BLACK)
+                Name = "馬";
+        }
+        public override List<Point> NextSteps
+        {
+            get
+            {
+                List<Point> r = new List<Point>();
+
+                if (FixedMetaPosition.X + 2 < ChessBoard.BOARD_META_WIDTH && FixedMetaPosition.Y + 1 < ChessBoard.BOARD_META_HEIGHT)
+                {
+                    //蹩马腿
+                    if (ChessBoard.Matrix[FixedMetaPosition.Y, FixedMetaPosition.X + 1] == 0)
+                    {
+                        //如果目标处没有棋子，则可以移动
+                        if (ChessBoard.Matrix[FixedMetaPosition.Y + 1, FixedMetaPosition.X + 2] == 0)
+                        {
+                            r.Add(new Point(FixedMetaPosition.X + 2, FixedMetaPosition.Y + 1));
+                        }
+                        else
+                        {
+                            //虽然目标处有棋子，但该棋子是对方的，也可以移动（此时实际为吃子）
+                            var piece = ChessBoard.GetPieceFromMetaPos(FixedMetaPosition.X + 2, FixedMetaPosition.Y + 1);
+                            if (piece.Count > 0 && piece[0].Team != this.Team)
+                                r.Add(new Point(FixedMetaPosition.X + 2, FixedMetaPosition.Y + 1));
+                        }
+                    }
+                }
+                if (FixedMetaPosition.X + 2 < ChessBoard.BOARD_META_WIDTH && FixedMetaPosition.Y - 1 >= 0)
+                {
+                    //蹩马腿
+                    if (ChessBoard.Matrix[FixedMetaPosition.Y, FixedMetaPosition.X + 1] == 0)
+                    {
+                        if (ChessBoard.Matrix[FixedMetaPosition.Y - 1, FixedMetaPosition.X + 2] == 0)
+                        {
+                            r.Add(new Point(FixedMetaPosition.X + 2, FixedMetaPosition.Y - 1));
+                        }
+                        else
+                        {
+                            var piece = ChessBoard.GetPieceFromMetaPos(FixedMetaPosition.X + 2, FixedMetaPosition.Y - 1);
+                            if (piece.Count > 0 && piece[0].Team != this.Team)
+                                r.Add(new Point(FixedMetaPosition.X + 2, FixedMetaPosition.Y - 1));
+                        }
+                    }
+                }
+                if (FixedMetaPosition.X - 2 >= 0 && FixedMetaPosition.Y + 1 < ChessBoard.BOARD_META_HEIGHT)
+                {
+                    //蹩马腿
+                    if (ChessBoard.Matrix[FixedMetaPosition.Y, FixedMetaPosition.X - 1] == 0)
+                    {
+                        if (ChessBoard.Matrix[FixedMetaPosition.Y + 1, FixedMetaPosition.X - 2] == 0)
+                        {
+                            r.Add(new Point(FixedMetaPosition.X - 2, FixedMetaPosition.Y + 1));
+                        }
+                        else
+                        {
+                            var piece = ChessBoard.GetPieceFromMetaPos(FixedMetaPosition.X - 2, FixedMetaPosition.Y + 1);
+                            if (piece.Count > 0 && piece[0].Team != this.Team)
+                                r.Add(new Point(FixedMetaPosition.X - 2, FixedMetaPosition.Y + 1));
+                        }
+                    }
+                }
+                if (FixedMetaPosition.X - 2 >= 0 && FixedMetaPosition.Y - 1 >= 0)
+                {
+                    //蹩马腿
+                    if (ChessBoard.Matrix[FixedMetaPosition.Y, FixedMetaPosition.X - 1] == 0)
+                    {
+                        if (ChessBoard.Matrix[FixedMetaPosition.Y - 1, FixedMetaPosition.X - 2] == 0)
+                        {
+                            r.Add(new Point(FixedMetaPosition.X - 2, FixedMetaPosition.Y - 1));
+                        }
+                        else
+                        {
+                            var piece = ChessBoard.GetPieceFromMetaPos(FixedMetaPosition.X - 2, FixedMetaPosition.Y - 1);
+                            if (piece.Count > 0 && piece[0].Team != this.Team)
+                                r.Add(new Point(FixedMetaPosition.X - 2, FixedMetaPosition.Y - 1));
+                        }
+                    }
+                }
+
+                if (FixedMetaPosition.X + 1 < ChessBoard.BOARD_META_WIDTH && FixedMetaPosition.Y + 2 < ChessBoard.BOARD_META_HEIGHT)
+                {
+                    //蹩马腿
+                    if (ChessBoard.Matrix[FixedMetaPosition.Y + 1, FixedMetaPosition.X] == 0)
+                    {
+                        if (ChessBoard.Matrix[FixedMetaPosition.Y + 2, FixedMetaPosition.X + 1] == 0)
+                        {
+                            r.Add(new Point(FixedMetaPosition.X + 1, FixedMetaPosition.Y + 2));
+                        }
+                        else
+                        {
+                            var piece = ChessBoard.GetPieceFromMetaPos(FixedMetaPosition.X + 1, FixedMetaPosition.Y + 2);
+                            if (piece.Count > 0 && piece[0].Team != this.Team)
+                                r.Add(new Point(FixedMetaPosition.X + 1, FixedMetaPosition.Y + 2));
+                        }
+                    }
+                }
+                if (FixedMetaPosition.X + 1 < ChessBoard.BOARD_META_WIDTH && FixedMetaPosition.Y - 2 >= 0)
+                {
+                    //蹩马腿
+                    if (ChessBoard.Matrix[FixedMetaPosition.Y - 1, FixedMetaPosition.X] == 0)
+                    {
+                        if (ChessBoard.Matrix[FixedMetaPosition.Y - 2, FixedMetaPosition.X + 1] == 0)
+                        {
+                            r.Add(new Point(FixedMetaPosition.X + 1, FixedMetaPosition.Y - 2));
+                        }
+                        else
+                        {
+                            var piece = ChessBoard.GetPieceFromMetaPos(FixedMetaPosition.X + 1, FixedMetaPosition.Y - 2);
+                            if (piece.Count > 0 && piece[0].Team != this.Team)
+                                r.Add(new Point(FixedMetaPosition.X + 1, FixedMetaPosition.Y - 2));
+                        }
+                    }
+                }
+                if (FixedMetaPosition.X - 1 >= 0 && FixedMetaPosition.Y + 2 < ChessBoard.BOARD_META_HEIGHT)
+                {
+                    //蹩马腿
+                    if (ChessBoard.Matrix[FixedMetaPosition.Y + 1, FixedMetaPosition.X] == 0)
+                    {
+                        if (ChessBoard.Matrix[FixedMetaPosition.Y + 2, FixedMetaPosition.X - 1] == 0)
+                        {
+                            r.Add(new Point(FixedMetaPosition.X - 1, FixedMetaPosition.Y + 2));
+                        }
+                        else
+                        {
+                            var piece = ChessBoard.GetPieceFromMetaPos(FixedMetaPosition.X - 1, FixedMetaPosition.Y + 2);
+                            if (piece.Count > 0 && piece[0].Team != this.Team)
+                                r.Add(new Point(FixedMetaPosition.X - 1, FixedMetaPosition.Y + 2));
+                        }
+                    }
+                }
+
+                if (FixedMetaPosition.X - 1 >= 0 && FixedMetaPosition.Y - 2 >= 0)
+                {
+                    //蹩马腿
+                    if (ChessBoard.Matrix[FixedMetaPosition.Y - 1, FixedMetaPosition.X] == 0)
+                    {
+                        //如果目标处没有棋子，则可以移动
+                        if (ChessBoard.Matrix[FixedMetaPosition.Y - 2, FixedMetaPosition.X - 1] == 0)
+                        {
+                            r.Add(new Point(FixedMetaPosition.X - 1, FixedMetaPosition.Y - 2));
+                        }
+                        else
+                        {
+                            //虽然目标处有棋子，但该棋子是对方的，也可以移动（此时实际为吃子）
+                            var piece = ChessBoard.GetPieceFromMetaPos(FixedMetaPosition.X - 1, FixedMetaPosition.Y - 2);
+                            if (piece.Count > 0 && piece[0].Team != this.Team)
+                                r.Add(new Point(FixedMetaPosition.X - 1, FixedMetaPosition.Y - 2));
+                        }
+                    }
+                }
+
+                return r;
+            }
+        }
+    }
+}
